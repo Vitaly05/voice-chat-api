@@ -33,7 +33,7 @@ class WebRTCSignal implements ShouldBroadcastNow
     public function broadcastOn() : array
     {
         return [
-            new PrivateChannel( 'Chat.' . 0 ),
+            new PrivateChannel( 'Chat.' . $this->receiverId ),
         ];
     }
 

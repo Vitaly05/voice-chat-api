@@ -22,8 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot() : void
     {
         TrimStrings::skipWhen( function ( Request $request ) {
-            return $request->is( 'v1/chat/send-offer' )
-                || $request->is( 'v1/chat/send-answer' );
+            return $request->is( 'v1/chat/signal' );
         } );
     }
 }

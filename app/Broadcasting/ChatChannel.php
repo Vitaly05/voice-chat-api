@@ -3,7 +3,6 @@
 namespace App\Broadcasting;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
 class ChatChannel
 {

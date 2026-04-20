@@ -16,7 +16,4 @@ Route::controller( ChatController::class )
     ->prefix( 'chat' )
     ->group( function () {
         Route::post( 'signal', 'signal' );
-        Route::post( 'new-ice-candidate', 'newIceCandidate' );
-        Route::post( 'send-offer', 'sendOffer' );
-        Route::post( 'send-answer', 'sendAnswer' );
     } );
