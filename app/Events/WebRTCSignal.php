@@ -28,11 +28,13 @@ class WebRTCSignal implements ShouldBroadcastNow
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return PrivateChannel
+     * @return array
      */
-    public function broadcastOn() : PrivateChannel
+    public function broadcastOn() : array
     {
-        return new PrivateChannel( 'user' . $this->receiverId );
+        return [
+            new PrivateChannel( 'Chat.' . 0 ),
+        ];
     }
 
     public function broadcastAs() : string
