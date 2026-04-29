@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\ChatController;
-use Illuminate\Support\Facades\Broadcast;
+use App\Http\Controllers\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller( AuthController::class )
@@ -16,4 +16,17 @@ Route::controller( ChatController::class )
     ->prefix( 'chat' )
     ->group( function () {
         Route::post( 'signal', 'signal' );
+
+        Route::middleware( 'auth:sanctum' )->group( function () {
+            Route::post( 'start-call', 'startCall' );
+            Route::post( 'accept-call', 'acceptCall' );
+        } );
+    } );
+
+Route::controller( UserController::class )
+    ->prefix( 'user' )
+    ->middleware( 'auth:sanctum' )
+    ->group( function () {
+        Route::get( 'get-info', 'getCurrentUserInfo' );
+        Route::get( 'get-all-friends', 'getAllFriends' );
     } );

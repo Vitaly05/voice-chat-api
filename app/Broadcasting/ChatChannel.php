@@ -17,8 +17,8 @@ class ChatChannel
     /**
      * Authenticate the user's access to the channel.
      */
-    public function join( User $user, int $id ) : array|bool
+    public function join( User $user, $user_id ) : array|bool
     {
-        return true;
+        return $user->id === (int) $user_id;
     }
 }

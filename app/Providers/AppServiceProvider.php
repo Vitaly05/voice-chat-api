@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +25,7 @@ class AppServiceProvider extends ServiceProvider
         TrimStrings::skipWhen( function ( Request $request ) {
             return $request->is( 'v1/chat/signal' );
         } );
+
+        JsonResource::withoutWrapping();
     }
 }
