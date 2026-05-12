@@ -4,14 +4,12 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class WebRTCSignal implements ShouldBroadcastNow
+class StartCallEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,8 +17,9 @@ class WebRTCSignal implements ShouldBroadcastNow
      * Create a new event instance.
      */
     public function __construct(
-        public       $receiverId,
-        public array $data
+        public $sender_id,
+        public $sender_name,
+        public $recipient_id,
     )
     {
     }
@@ -28,17 +27,17 @@ class WebRTCSignal implements ShouldBroadcastNow
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return array<int, Channel>
      */
     public function broadcastOn() : array
     {
         return [
-            new PrivateChannel( 'Chat.' . $this->receiverId ),
+            new PrivateChannel( 'Chat.' . $this->recipient_id ),
         ];
     }
 
     public function broadcastAs() : string
     {
-        return 'signal';
+        return 'income-call';
     }
 }
