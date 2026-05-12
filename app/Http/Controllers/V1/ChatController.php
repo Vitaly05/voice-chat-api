@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\V1;
 
 use App\Events\AcceptCallEvent;
+use App\Events\CancelCallEvent;
+use App\Events\RejectCallEvent;
 use App\Events\StartCallEvent;
 use App\Events\WebRTCSignal;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Chat\AcceptCallRequest;
+use App\Http\Requests\Chat\CancelCallRequest;
+use App\Http\Requests\Chat\RejectCallRequest;
 use App\Http\Requests\Chat\StartCallRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,7 +31,7 @@ class ChatController extends Controller
             return $this->notAFriendResponse();
         }
 
-        broadcast( new StartCallEvent( $current_user->id, $recipient_id ) );
+        broadcast( new StartCallEvent( $current_user->id, $current_user->name, $recipient_id ) );
 
         return response()->json( ['success' => true] );
     }
@@ -38,6 +42,24 @@ class ChatController extends Controller
         $sender_id = $request->sender_id;
 
         broadcast( new AcceptCallEvent( $sender_id, $current_user_id ) );
+
+        return response()->json( ['success' => true] );
+    }
+
+    public function rejectCall( RejectCallRequest $request )
+    {
+        $sender_id = $request->sender_id;
+
+        broadcast( new RejectCallEvent( $sender_id ) );
+
+        return response()->json( ['success' => true] );
+    }
+
+    public function cancelCall( CancelCallRequest $request )
+    {
+        $sender_id = $request->sender_id;
+
+        broadcast( new CancelCallEvent( $sender_id ) );
 
         return response()->json( ['success' => true] );
     }

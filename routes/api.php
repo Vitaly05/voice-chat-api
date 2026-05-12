@@ -20,6 +20,8 @@ Route::controller( ChatController::class )
         Route::middleware( 'auth:sanctum' )->group( function () {
             Route::post( 'start-call', 'startCall' );
             Route::post( 'accept-call', 'acceptCall' );
+            Route::post( 'reject-call', 'rejectCall' );
+            Route::post( 'cancel-call', 'cancelCall' );
         } );
     } );
 

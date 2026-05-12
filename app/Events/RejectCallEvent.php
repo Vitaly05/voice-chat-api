@@ -9,7 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StartCallEvent implements ShouldBroadcastNow
+class RejectCallEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -18,8 +18,6 @@ class StartCallEvent implements ShouldBroadcastNow
      */
     public function __construct(
         public $sender_id,
-        public $sender_name,
-        public $recipient_id,
     )
     {
     }
@@ -32,12 +30,12 @@ class StartCallEvent implements ShouldBroadcastNow
     public function broadcastOn() : array
     {
         return [
-            new PrivateChannel( 'Chat.' . $this->recipient_id ),
+            new PrivateChannel( 'Chat.' . $this->sender_id ),
         ];
     }
 
     public function broadcastAs() : string
     {
-        return 'income-call';
+        return 'reject-call';
     }
 }
