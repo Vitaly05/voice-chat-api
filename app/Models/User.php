@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable( ['name', 'email', 'password'] )]
@@ -65,5 +66,46 @@ class User extends Authenticatable
                     $query->where( 'id', $current_user_id );
                 } );
         } )->where( 'id', '!=', $current_user_id );
+    }
+
+    public function removeFriend( $user_id )
+    {
+        $chat = $this->chats()
+            ->whereHas( 'users', function ( $query ) use ( $user_id ) {
+                $query->where( 'id', $user_id );
+            } )
+            ->where( 'status', ChatStatuses::ACCEPTED )
+            ->first();
+
+        $chat?->update( ['status' => ChatStatuses::DECLINED] );
+    }
+
+    public function acceptFriendshipRequest( $user_id )
+    {
+        $chat = $this->chats()
+            ->where( 'creator_id', $user_id )
+            ->where( 'status', ChatStatuses::REQUESTED )
+            ->first();
+
+        $chat?->update( ['status' => ChatStatuses::ACCEPTED] );
+    }
+
+    public function rejectFriendshipRequest( $user_id )
+    {
+        $chat = $this->chats()
+            ->where( 'creator_id', $user_id )
+            ->where( 'status', ChatStatuses::REQUESTED )
+            ->first();
+
+        $chat?->update( ['status' => ChatStatuses::DECLINED] );
+    }
+
+    public function makeFriendshipRequest( $user_id )
+    {
+        $chat = Chat::query()->create( [
+            'creator_id' => $this->id,
+        ] );
+
+        $chat->users()->attach( [$this->id, $user_id] );
     }
 }

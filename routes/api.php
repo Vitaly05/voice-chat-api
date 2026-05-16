@@ -31,4 +31,11 @@ Route::controller( UserController::class )
     ->group( function () {
         Route::get( 'get-info', 'getCurrentUserInfo' );
         Route::get( 'get-all-friends', 'getAllFriends' );
+        Route::get( 'get-friendship-requests', 'getFriendshipRequests' );
+        Route::get( 'get-notifications-count', 'getNotificationsCount' );
+
+        Route::post( 'add-friend', 'addFriend' );
+        Route::post( 'remove-friend', 'removeFriend' );
+        Route::post( 'accept-friendship-request', 'acceptFriendRequest' );
+        Route::post( 'reject-friendship-request', 'rejectFriendRequest' );
     } );
