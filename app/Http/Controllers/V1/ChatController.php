@@ -64,7 +64,7 @@ class ChatController extends Controller
         return response()->json( ['success' => true] );
     }
 
-    public function notAFriendResponse() : JsonResponse
+    protected function notAFriendResponse() : JsonResponse
     {
         return response()->json( [
             'success' => false,

@@ -78,7 +78,7 @@ class UserController extends Controller
         $friend_id = $request->input( 'user_id' );
 
         if ( !$current_user->hasFriend( $friend_id ) ) {
-            return $this->userAlreadyInFriendsResponse();
+            return $this->userArentYourFriendResponse();
         }
 
         $current_user->removeFriend( $friend_id );
@@ -139,7 +139,7 @@ class UserController extends Controller
         ] );
     }
 
-    private function cantAddYourselfResponse() : JsonResponse
+    protected function cantAddYourselfResponse() : JsonResponse
     {
         return response()->json( [
             'success' => false,
@@ -147,7 +147,7 @@ class UserController extends Controller
         ] );
     }
 
-    private function userNotFoundResponse() : JsonResponse
+    protected function userNotFoundResponse() : JsonResponse
     {
         return response()->json( [
             'success' => false,
@@ -155,7 +155,7 @@ class UserController extends Controller
         ] );
     }
 
-    private function requestAlreadyExistsResponse() : JsonResponse
+    protected function requestAlreadyExistsResponse() : JsonResponse
     {
         return response()->json( [
             'success' => false,
@@ -163,7 +163,7 @@ class UserController extends Controller
         ] );
     }
 
-    private function userAlreadyInFriendsResponse() : JsonResponse
+    protected function userAlreadyInFriendsResponse() : JsonResponse
     {
         return response()->json( [
             'success' => false,
@@ -171,7 +171,7 @@ class UserController extends Controller
         ] );
     }
 
-    private function userArentYourFriendResponse() : JsonResponse
+    protected function userArentYourFriendResponse() : JsonResponse
     {
         return response()->json( [
             'success' => false,
